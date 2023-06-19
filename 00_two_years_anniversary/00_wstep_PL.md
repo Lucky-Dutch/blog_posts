@@ -13,5 +13,5 @@ Ponizej artykułu i ich status:
 - Dygresja o poczatkach, podejsciu, motywacji - not started
 
 ## Zakończenie
-Cykl ten polecam szczegolnie poczatkujcym developerom, którzy sa w trakcie szukania odpowiedzi na powyzsze tematy.
+Cykl ten polecam szczegolnie poczatkujacym developerom, którzy sa w trakcie szukania odpowiedzi na powyzsze tematy.
 Miłej lektury :) 
