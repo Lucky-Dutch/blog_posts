@@ -1,17 +1,17 @@
 ---
-title: "LiveView - tips and tricks"
+title: "LiveView - tips and tricks part 1"
 date: "2026-03-06"
 description: "A set of useful information about liveview"
 ---
-## 5 LiveView tips and tricks.
+## 7 LiveView tips and tricks.
 ### First Tip
-#### Use functional components (stateless) wherever you can, use live_components (stateful) when a component needs a state modification.
+#### Use functional components (stateless) wherever you can. Use live_components (stateful) only when a component needs to manage its own state or events.
 Why?
-Stateful components create a child live view and if we do not need to manage the state, we should try to avoid using them. It's like using a gun to kill a fly.
+Stateful components add extra overhead because Phoenix has to track their identity and lifecycle. If you don't need to manage internal state, avoid them to keep things simple and fast. It’s like using a gun to kill a fly.
 
 ### Second Tip
-#### Instead of assigning new states, it is better to update them.
-if you are sure that the state exists in the liveview, i.e. you added the state in mount/2 and then want to change it, e.g. in handle_event/2, instead of re-assigning it, use the update function
+#### Instead of re-assigning existing states, use the (`update/3`) function.
+if you are sure that the state exists in the liveview, i.e. you added the state in `mount/2` and then want to change it, e.g. in `handle_event/2`, instead of re-assigning it, use the update function
 
 ### Third Tip
 #### Don't block the initial render – use Async Assigns (`assign_async`).
@@ -29,9 +29,9 @@ Why?
 When implementing real-time form validation with `phx-change`, it's tempting to send an event to the server on every single keystroke. This generates unnecessary network traffic and can overload your server. By simply adding `phx-debounce="300"` (waits 300ms after the user stops typing) or `phx-debounce="blur"` (fires when the user leaves the input field), you optimize resource usage and provide a smoother user experience without writing any custom JavaScript.
 
 ### Sixth Tip
-#### Use `Phoenix.LiveView.JS` for simple UI interactions to avoid server roundtrips.
+#### Use `temporary_assigns` for large data collections, such as lists or search results.
 Why?
-You don't need to send an event over the WebSocket to the server just to open a dropdown, show a modal, or toggle a CSS class. By using functions like `JS.toggle`, `JS.show`, or `JS.add_class` directly in your HTML bindings (e.g., `phx-click={JS.toggle(...)}`), the interactions are handled entirely on the client side. This guarantees zero latency for UI changes, provides a snappier experience for the user, and keeps your server focused purely on business logic.
+By default, LiveView keeps a copy of all assigns in the server's memory (the socket state) to handle change tracking. If you have thousands of users and each stores a large list in their socket, you’ll quickly run out of RAM. Using temporary_assigns tells Phoenix to wipe the data from the server's memory immediately after rendering the HTML, while keeping it visible for the user in the browser. It’s a lifesaver for performance.
 
 ### Seventh Tip
 #### Keep your `mount/3` clean by extracting common logic into `on_mount` hooks.
