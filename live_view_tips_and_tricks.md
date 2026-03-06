@@ -1,3 +1,8 @@
+---
+title: "LiveView - tips and tricks"
+date: "2026-03-06"
+description: "A set of useful information about liveview"
+---
 ## 5 LiveView tips and tricks.
 ### First Tip
 #### Use functional components (stateless) wherever you can, use live_components (stateful) when a component needs a state modification.
